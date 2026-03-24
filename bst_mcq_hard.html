@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BST Hard MCQ | Class 12 CBSE 2025-26</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0d;
+  --s1: #141414;
+  --s2: #1c1c1c;
+  --s3: #242424;
+  --border: #2a2a2a;
+  --text: #e8e8e8;
+  --muted: #666;
+  --dim: #444;
+  --accent: #ff6b35;
+  --accent2: #4ecdc4;
+  --gold: #ffd166;
+  --correct: #06d6a0;
+  --wrong: #ef476f;
+  --blue: #118ab2;
+  --purple: #9b5de5;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* noise overlay */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+
+.wrap{max-width:800px;margin:0 auto;padding:0 16px 80px;position:relative;z-index:1;}
+
+/* ── HEADER ── */
+.hd{padding:32px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px;animation:fd .5s ease;}
+.hd-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.hd-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,64px);line-height:.95;letter-spacing:1px;}
+.hd-title .r{color:var(--accent);}
+.hd-title .g{color:var(--accent2);}
+.hd-sub{font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:1px;}
+.diff-pills{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.pill{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:3px;}
+.pill-m{background:rgba(255,209,102,.1);color:var(--gold);border:1px solid rgba(255,209,102,.25);}
+.pill-h{background:rgba(255,107,53,.1);color:var(--accent);border:1px solid rgba(255,107,53,.25);}
+.pill-c{background:rgba(78,205,196,.1);color:var(--accent2);border:1px solid rgba(78,205,196,.25);}
+
+/* ── SCOREBAR ── */
+.sbar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px;animation:fd .5s ease .1s both;}
+.sc{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:10px 6px;text-align:center;}
+.sv{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+.sv.c{color:var(--correct);}
+.sv.w{color:var(--wrong);}
+.sv.g{color:var(--gold);}
+.sl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-top:1px;}
+
+/* ── PROGRESS ── */
+.prog-wrap{margin-bottom:22px;display:flex;align-items:center;gap:10px;}
+.prog-track{flex:1;height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
+.prog-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .5s cubic-bezier(.34,1.56,.64,1);width:0%;}
+.prog-txt{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;}
+
+/* ── QUESTION CARD ── */
+.qcard{
+  background:var(--s1);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:24px 22px 20px;
+  margin-bottom:14px;
+  animation:slIn .35s ease;
+  position:relative;
+  overflow:hidden;
+}
+.qcard::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent2),var(--accent),var(--purple));
+}
+
+/* TYPE BADGE */
+.tbadge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 10px;border-radius:3px;margin-bottom:10px;
+}
+.tb-case{background:rgba(255,107,53,.12);color:var(--accent);border:1px solid rgba(255,107,53,.3);}
+.tb-ar{background:rgba(17,138,178,.12);color:var(--blue);border:1px solid rgba(17,138,178,.3);}
+.tb-st{background:rgba(6,214,160,.12);color:var(--correct);border:1px solid rgba(6,214,160,.3);}
+.tb-dir{background:rgba(255,209,102,.12);color:var(--gold);border:1px solid rgba(255,209,102,.3);}
+.tb-seq{background:rgba(155,93,229,.12);color:var(--purple);border:1px solid rgba(155,93,229,.3);}
+.tb-mt{background:rgba(78,205,196,.12);color:var(--accent2);border:1px solid rgba(78,205,196,.3);}
+
+.qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.qnum{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.qunit{font-size:10px;color:var(--muted);background:var(--s2);border:1px solid var(--border);padding:2px 10px;border-radius:3px;letter-spacing:.5px;}
+
+/* DIFF TAG */
+.diff-tag{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:3px;margin-left:6px;}
+.dt-m{background:rgba(255,209,102,.15);color:var(--gold);}
+.dt-h{background:rgba(255,107,53,.15);color:var(--accent);}
+
+.qtext{font-size:15px;line-height:1.75;color:var(--text);margin-bottom:18px;font-weight:400;}
+.qtext strong{color:white;font-weight:600;}
+
+/* CASE BOX */
+.casebox{
+  background:var(--s2);border-left:2px solid var(--accent);
+  border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:16px;
+  font-size:13.5px;line-height:1.75;color:#aaa;
+}
+
+/* A-R BOX */
+.arbox{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.arrow{
+  background:rgba(17,138,178,.08);border:1px solid rgba(17,138,178,.2);
+  border-radius:8px;padding:10px 14px;font-size:13.5px;line-height:1.65;color:#bbb;
+}
+.arrow strong{color:var(--blue);font-weight:700;}
+
+/* STMT BOX */
+.stbox{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.strow{
+  background:rgba(6,214,160,.06);border:1px solid rgba(6,214,160,.18);
+  border-radius:8px;padding:10px 14px;font-size:13.5px;line-height:1.65;color:#bbb;
+}
+.strow strong{color:var(--correct);font-weight:700;}
+
+/* TABLE */
+.mtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px;}
+.mtable th{background:var(--s2);padding:9px 12px;text-align:left;border:1px solid var(--border);color:var(--accent2);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;}
+.mtable td{padding:9px 12px;border:1px solid var(--border);color:#aaa;line-height:1.5;}
+
+/* OPTIONS */
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 16px;border:1px solid var(--border);
+  border-radius:8px;cursor:pointer;background:var(--s2);
+  transition:all .16s ease;user-select:none;
+}
+.opt:hover:not(.locked){border-color:var(--accent2);background:rgba(78,205,196,.06);transform:translateX(4px);}
+.okey{
+  width:26px;height:26px;border-radius:5px;background:var(--s3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.5px;
+  color:var(--muted);flex-shrink:0;transition:all .16s;margin-top:1px;
+}
+.otxt{font-size:14px;line-height:1.55;color:#ccc;flex:1;}
+.oico{font-size:14px;opacity:0;transform:scale(0);transition:all .2s cubic-bezier(.34,1.56,.64,1);margin-top:2px;}
+
+.opt.correct{border-color:var(--correct);background:rgba(6,214,160,.07);}
+.opt.correct .okey{background:var(--correct);color:#000;}
+.opt.correct .otxt{color:var(--text);font-weight:500;}
+.opt.correct .oico{opacity:1;transform:scale(1);}
+
+.opt.wrong{border-color:var(--wrong);background:rgba(239,71,111,.07);}
+.opt.wrong .okey{background:var(--wrong);color:white;}
+.opt.wrong .oico{opacity:1;transform:scale(1);}
+
+.opt.dim{opacity:.3;}
+.opt.locked{cursor:default;transform:none!important;}
+
+/* EXP */
+.expbox{
+  display:none;margin-top:14px;
+  background:rgba(255,209,102,.05);border:1px solid rgba(255,209,102,.15);
+  border-left:2px solid var(--gold);border-radius:0 8px 8px 0;
+  padding:12px 16px;font-size:13px;line-height:1.68;color:#aaa;
+  animation:fd .25s ease;
+}
+.expbox.show{display:block;}
+.expbox strong{color:var(--gold);}
+
+/* NAV */
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.btn{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:11px 24px;border-radius:6px;border:none;cursor:pointer;transition:all .16s;}
+.btn-nx{background:var(--accent);color:white;}
+.btn-nx:hover{background:#e85a28;transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,107,53,.3);}
+.btn-nx:disabled{opacity:.25;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-pv{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.btn-pv:hover{border-color:var(--dim);color:var(--text);}
+.btn-pv:disabled{opacity:.2;cursor:not-allowed;}
+
+/* ── RESULT ── */
+.result{
+  display:none;background:var(--s1);border:1px solid var(--border);
+  border-radius:16px;padding:48px 28px 40px;text-align:center;
+  animation:fd .5s ease;
+}
+.result.show{display:block;}
+.ring{
+  width:130px;height:130px;border-radius:50%;
+  border:3px solid var(--gold);
+  background:rgba(255,209,102,.06);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+}
+.rscore{font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:2px;color:var(--accent);line-height:1;}
+.rdenom{font-size:13px;color:var(--muted);}
+.rtitle{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:6px;}
+.rmsg{font-size:14px;color:var(--muted);margin-bottom:28px;}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:380px;margin:0 auto 28px;}
+.rc{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:14px 8px;}
+.rv{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;}
+.rv.c{color:var(--correct);}
+.rv.w{color:var(--wrong);}
+.rv.g{color:var(--gold);}
+.rl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-top:3px;}
+
+/* chapter report */
+.crep{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:16px 20px;max-width:520px;margin:0 auto 28px;text-align:left;}
+.crep-hd{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:12px;font-weight:700;}
+.crow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.crow:last-child{border-bottom:none;}
+.cn{color:#aaa;}
+.cs{font-weight:700;font-size:11px;}
+.cs.good{color:var(--correct);}
+.cs.ok{color:var(--gold);}
+.cs.bad{color:var(--wrong);}
+
+/* Perf bar */
+.perfbar{height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:4px;}
+.perfbar-fill{height:100%;border-radius:99px;transition:width 1s ease .3s;}
+.pfgood{background:var(--correct);}
+.pfok{background:var(--gold);}
+.pfbad{background:var(--wrong);}
+
+.btn-rs{
+  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  color:white;padding:14px 42px;border-radius:6px;border:none;cursor:pointer;transition:all .16s;
+}
+.btn-rs:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(255,107,53,.3);}
+
+/* CONFETTI */
+.cf{position:fixed;pointer-events:none;animation:fall linear forwards;z-index:999;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(600deg);opacity:0;}}
+
+/* ANIMS */
+@keyframes fd{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
+
+@media(max-width:520px){
+  .sbar{grid-template-columns:repeat(3,1fr);}
+  .sc:nth-child(4),.sc:nth-child(5){display:none;}
+  .hd-title{font-size:42px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hd">
+  <div class="hd-eyebrow">CBSE · Class XII · Subject Code 054 · 2025-26</div>
+  <div class="hd-title">BUSINESS <span class="r">STUDIES</span><br><span class="g">HARD</span> MCQ</div>
+  <div class="hd-sub">35 Questions · All 12 Units · Moderate → Hard · PYQ Pattern Exact</div>
+  <div class="diff-pills">
+    <span class="pill pill-m">⚡ Moderate</span>
+    <span class="pill pill-h">🔥 Hard</span>
+    <span class="pill pill-c">All Question Types</span>
+  </div>
+</header>
+
+<!-- SCOREBAR -->
+<div class="sbar">
+  <div class="sc"><div class="sv" id="sq">1</div><div class="sl">Question</div></div>
+  <div class="sc"><div class="sv c" id="sc2">0</div><div class="sl">Correct</div></div>
+  <div class="sc"><div class="sv w" id="sw">0</div><div class="sl">Wrong</div></div>
+  <div class="sc"><div class="sv g" id="sk">0</div><div class="sl">Skipped</div></div>
+  <div class="sc"><div class="sv" id="ss">0</div><div class="sl">Score</div></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-wrap">
+  <div class="prog-track"><div class="prog-bar" id="pb"></div></div>
+  <span class="prog-txt" id="pt">1 / 35</span>
+</div>
+
+<!-- QUESTION CARD -->
+<div class="qcard" id="qcard">
+  <div><span class="tbadge" id="tbdg"></span></div>
+  <div class="qmeta">
+    <span class="qnum" id="qn"></span>
+    <span class="qunit" id="qu"></span>
+  </div>
+  <div class="qtext" id="qt"></div>
+  <div id="qex"></div>
+  <div class="opts" id="ol"></div>
+  <div class="expbox" id="eb"></div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="btn btn-pv" id="bpv" onclick="go(-1)" disabled>← Prev</button>
+  <button class="btn btn-nx" id="bnx" onclick="go(1)">Next →</button>
+</div>
+
+<!-- RESULT -->
+<div class="result" id="res">
+  <div class="ring">
+    <div class="rscore" id="rsc">0</div>
+    <div class="rdenom">/ 35</div>
+  </div>
+  <div class="rtitle" id="rt"></div>
+  <div class="rmsg" id="rm"></div>
+  <div class="rgrid">
+    <div class="rc"><div class="rv c" id="rc2">0</div><div class="rl">Correct</div></div>
+    <div class="rc"><div class="rv w" id="rw">0</div><div class="rl">Wrong</div></div>
+    <div class="rc"><div class="rv g" id="rk">0</div><div class="rl">Skipped</div></div>
+  </div>
+  <div class="crep" id="crep"></div>
+  <button class="btn-rs" onclick="restart()">↺ RESTART</button>
+</div>
+
+</div>
+
+<script>
+// difficulty: "M" = moderate, "H" = hard
+const Q=[
+  // ══ UNIT 1: Nature & Significance ══
+  {u:"Nature & Significance",diff:"M",type:"dir",
+   q:`Which of the following is NOT a function of <strong>Middle Level Management</strong>?`,
+   opts:["Interpreting policies framed by top management","Analysing the business environment and implications for the firm's survival","Ensuring their department has necessary personnel","Motivating people in their department to achieve desired objectives"],
+   ans:1,
+   exp:`<strong>Analysing business environment</strong> is a function of <strong>Top-level management</strong>. Middle management's key job is to interpret and implement policies made by top management, ensure proper staffing in their department, and motivate employees. This appeared in actual CBSE 2024 board paper (Set 66/2/2 Q1).`
+  },
+  {u:"Nature & Significance",diff:"H",type:"ar",
+   ar:[{l:"A",t:"Assertion (A): Management is regarded as a full-fledged profession because it satisfies all the criteria of a profession."},
+       {l:"R",t:"Reason (R): Management has a systematic body of knowledge, but registration with a professional body like the Bar Council is NOT mandatory for managers."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both A and R are true and R is the correct explanation of A.",
+         "Both A and R are true but R is NOT the correct explanation of A.",
+         "A is false, R is true.",
+         "Both A and R are false."],
+   ans:2,
+   exp:`A is <strong>false</strong> — Management is NOT a full-fledged profession because registration with a professional body is not compulsory (unlike CA, Doctors, Advocates). R is <strong>true</strong> — management does have a systematic body of knowledge but lacks compulsory registration requirement. The "A is false, R is true" pattern is a very hard trap CBSE uses.`
+  },
+
+  // ══ UNIT 2: Principles of Management ══
+  {u:"Principles of Management",diff:"H",type:"case",
+   cs:`Leena is the Operations Manager at a garments trading company. She promoted associate Kushagra to 'Inventory & Order Fulfilment Supervisor'. Kushagra studied two methods — processing orders as they arrive vs. accumulating and processing in batches. He concluded that batch processing minimises cost. Meanwhile, Leena studied several records and determined that the standard time taken to deliver a batch of 100 pieces is 72 hours, which helped her fix labour cost.`,
+   q:`Identify the techniques of Scientific Management used by <strong>Kushagra</strong> and <strong>Leena</strong> respectively.`,
+   opts:["Motion Study and Time Study","Method Study and Time Study","Fatigue Study and Method Study","Time Study and Method Study"],
+   ans:1,
+   exp:`<strong>Kushagra</strong> evaluated two alternative methods of order fulfilment to find the most efficient one = <strong>Method Study</strong>. <strong>Leena</strong> used records to determine standard time (72 hours for 100 pieces) to fix labour cost = <strong>Time Study</strong>. This exact case appeared in CBSE SQP 2024-25 Q33, which is one of the hardest identification questions.`
+  },
+  {u:"Principles of Management",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: Taylor's Scientific Management and Fayol's Administrative Management are complementary rather than contradictory."},
+        {l:"II",t:"Statement II: Taylor developed his principles primarily from the perspective of a top-level executive, while Fayol developed his from a shop-floor worker's perspective."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is true, Statement II is false.","Statement II is true, Statement I is false."],
+   ans:2,
+   exp:`Statement I is <strong>true</strong> — Taylor and Fayol's contributions are complementary (both aimed at improving efficiency). Statement II is <strong>false</strong> — it is the <strong>reverse</strong>: Taylor developed principles from the perspective of a <strong>shop-floor worker/supervisor</strong>, while Fayol developed his from the perspective of a <strong>top-level manager</strong>. This distinction is a favourite CBSE hard question.`
+  },
+
+  // ══ UNIT 3: Business Environment ══
+  {u:"Business Environment",diff:"M",type:"case",
+   cs:`Pace Chartered Accountants is a reputed CA firm that provides services to big MNCs. CAs are required to travel to Delhi and NCR for client visits, so the firm decided to convert its petrol cars to <strong>electric cars</strong> in order to improve the quality of life of people and reduce carbon footprint. The firm also updated its software to the latest GST-compliant accounting platform, replacing its older system.`,
+   q:`Identify the dimensions of Business Environment reflected in the two decisions taken by the firm.`,
+   opts:["Political and Legal","Legal and Social","Social and Technological","Technological and Political"],
+   ans:2,
+   exp:`Converting to electric cars to improve quality of life = <strong>Social environment</strong> (social responsibility, community concerns). Updating to new GST-compliant software = <strong>Technological environment</strong> (adoption of new technology). This case appeared in CBSE SQP 2023-24 Q17.`
+  },
+  {u:"Business Environment",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: Liberalisation refers to freedom from unnecessary government controls and the integration of the domestic economy with the world economy."},
+        {l:"II",t:"Statement II: Privatisation refers to opening up of sectors previously reserved for the public sector to private and foreign companies."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is false, Statement II is true.","Statement I is true, Statement II is false."],
+   ans:1,
+   exp:`Both are <strong>false</strong>! Statement I: <strong>Liberalisation</strong> = freedom from unnecessary govt controls — this part is correct. BUT integration with world economy = <strong>Globalisation</strong>, not Liberalisation. Statement II: What's described (opening reserved sectors to private companies) = <strong>Disinvestment/Privatisation</strong> — BUT opening to foreign companies specifically = <strong>Globalisation/FDI liberalisation</strong>. The definitions have intentional mixed elements — a tough "both false" trap.`
+  },
+
+  // ══ UNIT 4: Planning ══
+  {u:"Planning",diff:"H",type:"case",
+   cs:`Mr. Gun Amroha, GM of Welworth Textiles, regularly scans the business environment and adapts organisational strategies accordingly. Despite his best efforts, he found it difficult to accurately predict future trends. "Even though I analyse everything thoroughly," he said, "there is no guarantee that our plans will work out exactly as we expect — our sales plan last year was perfect on paper but failed due to an unexpected economic slowdown."`,
+   q:`Identify the limitation of Planning highlighted by Mr. Gun Amroha's statement.`,
+   opts:["Planning leads to rigidity","Planning may not work in a dynamic environment","Planning does not guarantee success","Planning reduces creativity"],
+   ans:2,
+   exp:`Even after thorough analysis and perfect planning, the result didn't match expectations due to the economic slowdown — this illustrates <strong>"Planning does not guarantee success."</strong> (Success depends on many factors outside the manager's control.) Note: Option B (dynamic environment) is wrong — he DID adapt to environment. The keyword is "no guarantee." This case appeared verbatim in CBSE SQP 2025-26 Q14.`
+  },
+  {u:"Planning",diff:"H",type:"ar",
+   ar:[{l:"A",t:"Assertion (A): Planning is both forward-looking and backward-looking."},
+       {l:"R",t:"Reason (R): Plans are made for the future using past data and experience, but their outcome is evaluated after implementation, making it retrospective as well."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both A and R are true and R is the correct explanation of A.",
+         "Both A and R are true but R is NOT the correct explanation of A.",
+         "A is true, R is false.",
+         "A is false, R is true."],
+   ans:0,
+   exp:`Both A and R are <strong>true and R correctly explains A</strong>. Planning uses <strong>past data/experience</strong> (backward-looking) to make plans for the <strong>future</strong> (forward-looking). The evaluation of plan outcomes after implementation is also backward-looking. R correctly captures both dimensions and explains why A is true.`
+  },
+
+  // ══ UNIT 5: Organising ══
+  {u:"Organising",diff:"H",type:"case",
+   cs:`Malini's company Rapid Software Pvt. Ltd. divided work into Web Designing, Accounting, R&D, and Customer Service departments, each reporting to a coordinating head. Meanwhile, Shalini joined Babylon.com Inc. which offered Babylon Web Services, Babylon Prime, and Babylon Retail as separate divisions. Shalini was appointed head of Babylon Web Services and made fully responsible for its profit or loss. Her division functioned as an autonomous unit enabling faster decision-making.`,
+   q:`Identify the organisational structure of <strong>Rapid Software Pvt. Ltd.</strong> and <strong>Babylon.com Inc.</strong> respectively, and select the correct difference between them on the basis of <strong>responsibility</strong>.`,
+   opts:["Functional & Divisional; In Functional — dept head responsible for profit/loss; In Divisional — only for specific functions",
+         "Divisional & Functional; In Divisional — dept head responsible for profit/loss; In Functional — only for specific functions",
+         "Functional & Divisional; In Functional — head responsible only for specific function; In Divisional — head responsible for profit/loss of entire division",
+         "Both have Functional Structure; responsibility is same in both cases"],
+   ans:2,
+   exp:`Rapid Software (specialised departments reporting to coordinating head) = <strong>Functional Structure</strong>. Babylon.com (autonomous service divisions, profit/loss accountability) = <strong>Divisional Structure</strong>. Key difference on Responsibility: <strong>Functional</strong> = heads responsible only for their specific function. <strong>Divisional</strong> = Division Manager responsible for complete profit/loss of the division. From CBSE SQP 2025-26 Q33.`
+  },
+  {u:"Organising",diff:"H",type:"dir",
+   q:`Ravi Kumar took over as MD of Vova Watch Company. He found that employees were not involved in decision-making and just followed orders — resulting in low morale. He decided to spread authority systematically throughout all levels of the organisation so that employees at all levels could participate in decisions within their area of work.<br><br>The concept being applied by Ravi Kumar is:`,
+   opts:["Delegation","Functional Decentralisation","Decentralisation","Span of Management"],
+   ans:2,
+   exp:`<strong>Decentralisation</strong> is the systematic dispersal of decision-making authority throughout ALL levels of the organisation. Unlike delegation (which is manager → immediate subordinate, one level), decentralisation is organisation-wide. The key phrases "spread authority throughout all levels" and "employees at all levels could participate" confirm Decentralisation. From actual CBSE 2024 board paper.`
+  },
+
+  // ══ UNIT 6: Staffing ══
+  {u:"Staffing",diff:"M",type:"seq",
+   q:`After 'Placement and Orientation' in the staffing process, place the <strong>subsequent steps</strong> in the correct order for a small organisation:`,
+   opts:["Training & Development → Promotion & Career Planning → Performance Appraisal → Compensation",
+         "Performance Appraisal → Training & Development → Promotion & Career Planning → Compensation",
+         "Training & Development → Performance Appraisal → Promotion & Career Planning → Compensation",
+         "Training & Development → Performance Appraisal → Compensation → Promotion & Career Planning"],
+   ans:2,
+   exp:`After placement & orientation, the correct order is: <strong>Training & Development → Performance Appraisal → Promotion & Career Planning → Compensation</strong>. First you train the employee, then evaluate their performance, then plan their career/promotions accordingly, and finally fix compensation based on all of the above. This exact sequence question appeared in CBSE SQP 2024-25 Q9.`
+  },
+  {u:"Staffing",diff:"H",type:"case",
+   cs:`PP Motors plans to hire 8 new engineers. HR Manager Akhilesh Banerjee has already: (i) received applications and eliminated unfit candidates, (ii) conducted written tests, (iii) conducted preliminary and final interviews, and (iv) completed reference and background verification. The candidates have been given their offer letters and accepted them.`,
+   q:`Identify the <strong>remaining steps</strong> Mr. Banerjee must complete to finalise the hiring process.`,
+   opts:["Medical Examination and Placement","Placement and Orientation only","Medical Examination → Placement → Orientation","Reference Check → Medical Examination → Placement"],
+   ans:2,
+   exp:`The selection process steps are: Application → Screening → Tests → Interview → Reference Check → <strong>Medical Examination → Job Offer → Placement → Orientation</strong>. Since offer letters are accepted, remaining steps are: <strong>Medical Examination → Placement → Orientation</strong>. Medical exam must happen before final placement to ensure the candidate is physically fit. From CBSE SQP 2025-26 Q30.`
+  },
+  {u:"Staffing",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: Vestibule Training is conducted at the actual work place using the same tools and equipment the employee will use on the job."},
+        {l:"II",t:"Statement II: Apprenticeship Training is suitable for people entering skilled crafts and trades where both theoretical and practical training is provided simultaneously."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is false, Statement II is true.","Statement I is true, Statement II is false."],
+   ans:2,
+   exp:`Statement I is <strong>false</strong>: <strong>Vestibule Training</strong> is conducted away from the actual work floor — employees train on the same machines but in a SEPARATE training area (not at the actual workplace). It's specifically for sophisticated machinery. Statement II is <strong>true</strong>: Apprenticeship training combines theoretical learning with practical on-the-job training — used for plumbers, electricians, carpenters, etc.`
+  },
+
+  // ══ UNIT 7: Directing ══
+  {u:"Directing",diff:"H",type:"dir",
+   q:`From the following, choose the <strong>INCORRECT statement</strong> about the importance of the 'Directing' function of management:`,
+   opts:["Directing helps in initiating action in the organisation","Directing helps in integrating employees' efforts toward organisational goals","Directing helps in estimating manpower requirements for the organisation","Directing facilitates introduction of changes in the organisation"],
+   ans:2,
+   exp:`<strong>Estimating manpower requirements</strong> is a function of <strong>Staffing</strong> (specifically Human Resource Planning), NOT Directing. Directing functions include initiating action, integrating efforts, facilitating change, establishing balance, and maintaining discipline. This "identify incorrect" question appeared in actual CBSE 2024 board paper (Set 66/2/2 Q14).`
+  },
+  {u:"Directing",diff:"H",type:"case",
+   cs:`Captcha Ltd. is a construction company where: (i) employees learn various ways of dealing with diverse situations from their seniors [on-the-job training]; (ii) the company provides financial as well as non-financial incentives keeping employees' needs in mind; (iii) the organisation behaves as a responsible constituent of society and always creates quality products earning a positive market image; (iv) excellent training modules help employees find unique solutions in rapidly changing environments.`,
+   q:`From the above, identify the point of significance of management that is <strong>NOT</strong> highlighted in the case:`,
+   opts:["Management helps in development of society","Management helps in achieving personal objectives of employees","Management increases efficiency","Management helps in achieving group/organisational goals"],
+   ans:3,
+   exp:`Let's map each: (i) On-the-job training from seniors = increases efficiency (learning best practices). (ii) Financial + non-financial incentives = helps achieve personal objectives. (iii) Responsible to society, quality products = development of society. (iv) Training for unique solutions = increases efficiency again. <strong>"Achieving group/organisational goals"</strong> (specific coordination of efforts toward a common target) is NOT explicitly highlighted in any of the four points. From CBSE SQP 2023-24.`
+  },
+  {u:"Directing",diff:"H",type:"ar",
+   ar:[{l:"A",t:"Assertion (A): Semantic barriers to communication arise due to poor expression, wrong interpretation, or use of technical jargon unfamiliar to the receiver."},
+       {l:"R",t:"Reason (R): To overcome semantic barriers, the sender should use simple language, avoid jargon, and ensure the message is framed from the receiver's point of view."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both A and R are true and R is the correct explanation of A.",
+         "Both A and R are true but R is NOT the correct explanation of A.",
+         "A is true, R is false.",
+         "A is false, R is true."],
+   ans:0,
+   exp:`Both A and R are <strong>true and R correctly explains A</strong>. Semantic barriers involve problems with language and meaning — wrong words, technical jargon, ambiguous expressions. The correct remedy IS to simplify language, avoid jargon, and frame from the receiver's perspective. R directly addresses the barrier described in A, making it a correct explanation.`
+  },
+
+  // ══ UNIT 8: Controlling ══
+  {u:"Controlling",diff:"H",type:"case",
+   cs:`Piyush, Production Manager of a shoe company, noticed that actual production cost for one pair of shoes exceeded the standard estimated cost. He asked Abhay to investigate. Abhay found that there was <strong>overmanning</strong> — more workers than required were involved in production, leading to higher labour costs. Leena, the Operations Manager, had also set a standard time of 72 hours for a batch of 100 pieces.`,
+   q:`The function of management being highlighted in Piyush's action of comparing actual cost with standard cost and investigating deviation is:`,
+   opts:["Planning","Organising","Controlling","Directing"],
+   ans:2,
+   exp:`<strong>Controlling</strong> involves: (1) Setting standards (estimated cost per pair), (2) Measuring actual performance (actual production cost), (3) Comparing actual vs standard (Piyush noticed overshoot), (4) Analysing deviation (Abhay found overmanning), (5) Taking corrective action. Piyush performed the core controlling function of comparison and deviation analysis. From actual CBSE 2024 board paper.`
+  },
+  {u:"Controlling",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: Management by Exception (MBE) means managers should attend to ALL deviations — both major and minor — to ensure complete control."},
+        {l:"II",t:"Statement II: Critical Point Control means managers should focus on key result areas (KRAs) rather than trying to control every aspect of business operations."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is false, Statement II is true.","Statement I is true, Statement II is false."],
+   ans:2,
+   exp:`Statement I is <strong>false</strong>: MBE says managers should focus on <strong>significant deviations</strong> only, not every minor deviation. Routine matters are handled by subordinates; managers attend to exceptions (major deviations). Statement II is <strong>true</strong>: Critical Point Control means controlling key activities (KRAs) that significantly impact performance — not everything.`
+  },
+
+  // ══ UNIT 9: Financial Management ══
+  {u:"Financial Management",diff:"H",type:"case",
+   cs:`The Board of Directors of Medex Pharma Ltd. decided to issue debentures worth ₹40 lakhs to finance an R&D project. This would increase the Debt-Equity ratio from 1:1 to 2:1. However, at the same time, it would <strong>increase the Earnings Per Share (EPS)</strong>.`,
+   q:`The reason that will justify this situation is:`,
+   opts:["Unfavourable financial leverage, as the financial risk will be higher",
+         "Unfavourable financial leverage, as return on investment is lower than the cost of debt",
+         "Favourable financial leverage, as debt is easily available",
+         "Favourable financial leverage, as return on investment is higher than the cost of debt"],
+   ans:3,
+   exp:`Even though debt increases (D/E ratio rises from 1:1 to 2:1), EPS also increases — this is only possible when <strong>Return on Investment > Cost of Debt</strong>. The surplus above interest cost goes to equity shareholders, increasing EPS. This is called <strong>Favourable Financial Leverage / Trading on Equity</strong>. This exact case appeared in actual CBSE March 2024 board paper Q1.`
+  },
+  {u:"Financial Management",diff:"H",type:"dir",
+   q:`Which of the following is <strong>NOT</strong> a factor affecting 'Financing Decision'?`,
+   opts:["Cash flow position of the company","Stability of earnings","Diversification of product line","State of capital market"],
+   ans:2,
+   exp:`<strong>Diversification of product line</strong> is NOT a standard factor affecting the financing decision (debt vs equity choice). The factors for financing decision are: cash flow position, cost of debt, risk, floatation cost, control, flexibility, stability of income, tax benefit, capital market conditions, etc. Diversification affects the investment decision. From actual CBSE 2024 board paper Q15 (Set 66/5/1).`
+  },
+  {u:"Financial Management",diff:"H",type:"case",
+   cs:`Satya Prakash runs a dry fruit wholesale business. He maintains sufficient investment in current assets for smooth operations. Recently, he sold dry fruits worth ₹50 lakhs to 'Deshmukh Pure Grains' on a <strong>strict credit policy</strong>. He then immediately placed an additional order for stock replenishment but received the goods after a very <strong>large time lag</strong> from his supplier.`,
+   q:`Which factors highlighted in the above case affect the working capital requirement of Satya Prakash's business?`,
+   opts:["Credit allowed to customers and operating cycle length","Credit allowed by suppliers and level of competition","Nature of business and scale of operations","Seasonal factors and level of inventory"],
+   ans:0,
+   exp:`<strong>Strict credit policy</strong> (₹50 lakhs sold on credit) = more debtors = higher working capital needed (<strong>credit allowed to customers</strong>). <strong>Large time lag</strong> in receiving goods from supplier = longer operating cycle = more working capital needed (<strong>operating cycle / credit received from suppliers is opposite</strong>). The two highlighted factors: credit extended to customers + length of operating cycle. From CBSE SQP 2025-26 Q31.`
+  },
+  {u:"Financial Management",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: A company with high business risk (high fixed operating costs) should prefer debt financing to benefit from tax shield."},
+        {l:"II",t:"Statement II: Cost of debt is generally lower than cost of equity because interest on debt is tax-deductible and debt holders have priority over equity holders in case of liquidation."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is false, Statement II is true.","Statement I is true, Statement II is false."],
+   ans:2,
+   exp:`Statement I is <strong>false</strong>: A company with high business risk should actually <strong>AVOID</strong> debt (which adds financial risk) — it should prefer equity. Adding debt to already high business risk creates excessive total risk. Statement II is <strong>true</strong>: Cost of debt IS lower than equity because: (1) interest is tax-deductible (reduces actual cost), (2) debt is less risky for investors (they have prior claim), so they accept lower returns.`
+  },
+
+  // ══ UNIT 10: Financial Markets ══
+  {u:"Financial Markets",diff:"M",type:"dir",
+   q:`Financial market performs the 'allocative function' by:`,
+   opts:["Bringing transparency in the trading procedure","Earning higher rate of return to the household sector","Determining the prices of securities traded","Providing liquidity to financial assets"],
+   ans:2,
+   exp:`The <strong>allocative function</strong> of financial markets means that funds are directed (allocated) to the most productive uses through the price mechanism. <strong>Price discovery</strong> (determining security prices through demand-supply) enables capital to flow to higher-return opportunities. This appeared in CBSE SQP 2023-24 Q7.`
+  },
+  {u:"Financial Markets",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: Electronic holdings can be converted back into physical certificates through the process of Dematerialisation."},
+        {l:"II",t:"Statement II: In a Demat account, there is no danger of theft, loss, or forgery of share certificates."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is false, Statement II is true.","Statement I is true, Statement II is false."],
+   ans:2,
+   exp:`Statement I is <strong>false</strong>: Converting electronic holdings BACK to physical certificates is called <strong>Rematerialisation</strong> (Re-mat). <strong>Dematerialisation</strong> is converting PHYSICAL certificates INTO electronic form (Demat). The directions are opposite! Statement II is <strong>true</strong>: Demat accounts eliminate risks of physical certificates — no theft, loss, fire damage, forgery, or mutilation of share certificates. This appeared in CBSE SQP 2023-24 Q16.`
+  },
+  {u:"Financial Markets",diff:"H",type:"match",
+   mdata:{cols:["Column I (SEBI Functions)","Column II (Category)"],
+          rows:[["(a) SEBI prohibits insider trading and imposes penalties","(i) Developmental Function"],
+                ["(b) SEBI registers and regulates the working of stock brokers, mutual funds","(ii) Protective Function"],
+                ["(c) SEBI promotes investor education and training of intermediaries","(iii) Regulatory Function"],
+                ["(d) SEBI conducts research and publishes info on securities market","(iv) Both (i) and (iii)"]]},
+   q:`Match the SEBI functions with their correct category:`,
+   opts:["(a)-(ii), (b)-(iii), (c)-(i), (d)-(i)","(a)-(iii), (b)-(ii), (c)-(i), (d)-(i)","(a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)","(a)-(ii), (b)-(i), (c)-(iii), (d)-(iii)"],
+   ans:0,
+   exp:`<strong>(a) Prohibiting insider trading</strong> = Protective function (protecting investors from fraud). <strong>(b) Registering stock brokers/mutual funds</strong> = Regulatory function (regulating market participants). <strong>(c) Investor education & training intermediaries</strong> = Developmental function (developing the market). <strong>(d) Research and publishing info</strong> = Developmental function (market development through information). Correct: a-ii, b-iii, c-i, d-i.`
+  },
+
+  // ══ UNIT 11: Marketing ══
+  {u:"Marketing Management",diff:"H",type:"case",
+   cs:`Goodwill Enterprises, a large-scale automobile manufacturer, fulfils needs of both industrial users and consumers. The company is providing <strong>easy finance facilities at a low rate of interest</strong>, which has considerably increased demand. The company also installed a new <strong>branch management software</strong> to efficiently manage and coordinate activities across multiple branches.`,
+   q:`Identify the components of Business Environment illustrated above:`,
+   opts:["Political and Economic environment","Economic and Social environment","Technological and Legal environment","Economic and Technological environment"],
+   ans:3,
+   exp:`<strong>Easy finance at low interest rate</strong> = Economic environment (interest rates, credit availability, purchasing power). <strong>New branch management software</strong> = Technological environment (adoption of technology for operations). This exact case appeared in CBSE SQP 2024-25 Q6.`
+  },
+  {u:"Marketing Management",diff:"H",type:"dir",
+   q:`A bottle of anti-dandruff shampoo mentions: <em>"Clean your hair and get rid of dandruff in one squeeze."</em><br><br>The product-related marketing decision involved is:`,
+   opts:["Branding","Product Quality","Packaging","Labelling"],
+   ans:3,
+   exp:`The text written ON the bottle describing the product's benefit ("clean hair and get rid of dandruff in one squeeze") is a <strong>Labelling</strong> decision. Labels carry product information, usage instructions, benefits, ingredients, etc. Packaging = the physical container/wrapper. Branding = brand name/logo. This appeared in actual CBSE March 2024 board paper Q2.`
+  },
+  {u:"Marketing Management",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: For products requiring long-term storage like agricultural products, warehouses should be located near to the market (consumption areas)."},
+        {l:"II",t:"Statement II: Higher the level of inventory maintained, higher will be the level of service to customers — but the cost of carrying inventory will also be high."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is false, Statement II is true.","Statement I is true, Statement II is false."],
+   ans:2,
+   exp:`Statement I is <strong>false</strong>: For products requiring long-term storage (e.g., agricultural goods — seasonal production but year-round consumption), warehouses should be near the <strong>place of production</strong>, NOT the market. Market-proximity warehouses are for perishables needing quick distribution. Statement II is <strong>true</strong>: High inventory = better product availability = better customer service, BUT carrying costs (storage, insurance, handling) also rise proportionally. From CBSE SQP 2023-24 Q13.`
+  },
+  {u:"Marketing Management",diff:"H",type:"case",
+   cs:`Kavi works as a Marketing Manager in a stationery company. The company reduced its dividend payout for the year and retained higher earnings. The management's reason: they saw significant opportunities to expand their product line into premium stationery and digital accessories — markets with high growth potential requiring large capital investment.`,
+   q:`Identify the factor affecting <strong>Dividend Decision</strong> illustrated above:`,
+   opts:["Amount of Earnings","Stability of Earnings","Growth Opportunities","Stability of Dividends"],
+   ans:2,
+   exp:`The company reduced dividends specifically to <strong>retain earnings for reinvestment in high-growth opportunities</strong> (premium stationery, digital accessories expansion). This is the <strong>Growth Opportunities</strong> factor — companies with more growth prospects retain more profits instead of distributing dividends. Amount of earnings was not the constraint; the decision was driven by future expansion plans. From CBSE 2025 actual board paper.`
+  },
+
+  // ══ UNIT 12: Consumer Protection ══
+  {u:"Consumer Protection",diff:"M",type:"dir",
+   q:`Identify the <strong>INCORRECT statement</strong> with respect to Consumer Protection in India:`,
+   opts:["It includes educating consumers about their rights and responsibilities and helps in redressing grievances",
+         "It requires judicial machinery AND consumer associations for protecting consumers' interests",
+         "It is the moral duty of business to take care of consumers and avoid exploitation",
+         "The provisions of the Consumer Protection Act came into force from 1981"],
+   ans:3,
+   exp:`The Consumer Protection Act came into force in <strong>1986</strong> (old Act) and was replaced by the new <strong>Consumer Protection Act 2019</strong>. The year 1981 is incorrect. Options A, B, and C are all correct statements about consumer protection. This appeared in CBSE SQP 2024-25 Q16.`
+  },
+  {u:"Consumer Protection",diff:"H",type:"ar",
+   ar:[{l:"A",t:"Assertion (A): Under the Consumer Protection Act 2019, a consumer can approach the State Commission directly even if the value of the complaint is less than ₹1 crore."},
+       {l:"R",t:"Reason (R): The State Commission can entertain complaints where the value of goods/services does not exceed ₹10 crore."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both A and R are true and R is the correct explanation of A.",
+         "Both A and R are true but R is NOT the correct explanation of A.",
+         "A is false, R is true.",
+         "Both A and R are false."],
+   ans:2,
+   exp:`A is <strong>false</strong>: Under CPA 2019, complaints up to ₹1 crore MUST go to the <strong>District Commission</strong>, not State Commission. A consumer CANNOT approach State Commission for complaints below ₹1 crore. R is <strong>true</strong>: State Commission jurisdiction = more than ₹1 crore and up to ₹10 crore. This is a hard "A false, R true" trap that specifically tests the jurisdiction slabs.`
+  },
+
+  // ══ MIXED HARD APPLICATION QUESTIONS ══
+  {u:"Principles of Management",diff:"H",type:"dir",
+   q:`Taylor advocated 'Mental Revolution' — which means:`,
+   opts:["Workers should physically work harder and faster to increase production",
+         "Both management and workers should change their attitude towards each other and work together cooperatively for mutual benefit",
+         "Management should use advanced machinery to reduce dependence on workers",
+         "Workers should mentally accept all decisions taken by management without questioning"],
+   ans:1,
+   exp:`<strong>Mental Revolution</strong> (Taylor's key contribution): Both management AND workers should completely change their mental outlook — stop fighting over profits, and instead cooperate to INCREASE the total profits so there's enough for both. Management shares gains; workers work hard and embrace change. It's about changing the mindset from conflict to cooperation. From actual CBSE 2024 board paper.`
+  },
+  {u:"Financial Markets",diff:"H",type:"dir",
+   q:`Many reputed organisations keep a database of <strong>unsolicited applications</strong> from job seekers, which can be screened to fill vacancies as they arise. This source of recruitment is known as:`,
+   opts:["Campus Recruitment","Labour Contractors","Direct Recruitment / Casual Callers","Employment Exchange"],
+   ans:2,
+   exp:`<strong>Direct Recruitment / Casual Callers</strong> refers to unsolicited applications received from job seekers who apply directly without any vacancy being advertised. Organisations maintain a database of such applicants and refer to it when positions arise. This is different from employment exchanges (government-run) and campus recruitment (from colleges). From actual CBSE 2024 board paper Q13 (Set 66/5/1).`
+  },
+  {u:"Organising",diff:"H",type:"ar",
+   ar:[{l:"A",t:"Assertion (A): Informal organisation satisfies the social and psychological needs of employees and can work faster than formal organisation in some situations."},
+       {l:"R",t:"Reason (R): Informal organisation emerges spontaneously from social interactions, and information through grapevine travels faster than through official channels."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both A and R are true and R is the correct explanation of A.",
+         "Both A and R are true but R is NOT the correct explanation of A.",
+         "A is true, R is false.",
+         "A is false, R is true."],
+   ans:0,
+   exp:`Both A and R are <strong>true and R correctly explains A</strong>. Informal organisation DOES satisfy social needs (people choose who they interact with). It CAN work faster because the grapevine (informal communication) travels without the delays of formal channels — bypassing bureaucratic layers. R correctly explains the mechanism by which A is true.`
+  },
+  {u:"Nature & Significance",diff:"H",type:"stmt",
+   sts:[{l:"I",t:"Statement I: Coordination is the essence of management because it synchronises the efforts of all departments and individuals to achieve organisational goals."},
+        {l:"II",t:"Statement II: Coordination is a separate function of management like Planning, Organising, Staffing, Directing and Controlling."}],
+   q:`Choose the correct alternative:`,
+   opts:["Both statements are true.","Both statements are false.","Statement I is true, Statement II is false.","Statement II is true, Statement I is false."],
+   ans:2,
+   exp:`Statement I is <strong>true</strong>: Coordination IS the essence of management — it integrates all activities and functions toward common goals. Statement II is <strong>false</strong>: Coordination is NOT a separate function of management. It is implicit in every management function — it runs THROUGH planning, organising, staffing, directing, and controlling. It is a force that binds all functions, not a standalone function. Classic trick question!`
+  },
+  {u:"Directing",diff:"H",type:"case",
+   cs:`Mr. Pankaj Kumar is the HR Manager at Alankaar Fabrics Ltd., heading a team of 15 people. He has played a key role in the organisation's success by maintaining excellent interpersonal relations, influencing subordinates' behaviour positively. Subordinates willingly cooperate with him and his working style to increase output. He never issues commands — he shows the way, and people follow.`,
+   q:`Identify the element of Directing highlighted and select the correct statement about it:`,
+   opts:["Motivation — it is the process of stimulating people to action through satisfying their needs",
+         "Leadership — it is the activity of influencing people to strive willingly for group objectives",
+         "Communication — it is the process of exchange of information between two or more persons",
+         "Supervision — it is the process of overseeing the work of subordinates"],
+   ans:1,
+   exp:`<strong>Leadership</strong> is the ability to influence others to willingly work toward group objectives. Key phrases: "influencing subordinates' behaviour," "subordinates willingly cooperate," "never issues commands — shows the way, people follow." This perfectly describes leadership (influence + voluntary following). From CBSE SQP 2025-26 Q32.`
+  },
+  {u:"Financial Management",diff:"H",type:"dir",
+   q:`Arth Nivesh Ltd. has a high fixed operating cost. Its Finance Manager wants to raise ₹2 crores through debt or equity. He approaches a well-regulated financial market that facilitates mobilisation of <strong>long-term capital</strong> for companies. Where should Mr. Ashish Manjrekar raise these funds?`,
+   opts:["Money Market","Secondary Market","Capital Market","Call Money Market"],
+   ans:2,
+   exp:`<strong>Capital Market</strong> deals in long-term securities (equity shares, debentures, bonds) with maturity beyond one year. It facilitates raising long-term capital for companies. Money market deals in short-term instruments (maturity < 1 year). Secondary market is where EXISTING securities are traded (not for raising new capital). Call Money Market is overnight/short-term bank lending. From CBSE SQP 2025-26 Q18.`
+  }
+];
+
+// ── STATE ───────────────────────────
+let cur=0, answers=new Array(Q.length).fill(null), correct=0, wrong=0;
+
+// ── BADGE MAP ───────────────────────
+const TB={
+  case:{cls:'tb-case',lbl:'📋 Case Study'},
+  ar:{cls:'tb-ar',lbl:'⚖️ Assertion-Reason'},
+  stmt:{cls:'tb-st',lbl:'📝 Statement I & II'},
+  dir:{cls:'tb-dir',lbl:'🎯 Direct MCQ'},
+  seq:{cls:'tb-seq',lbl:'🔢 Sequence'},
+  match:{cls:'tb-mt',lbl:'🔗 Match Column'}
+};
+
+function render(i){
+  const q=Q[i], done=answers[i]!==null;
+
+  // badge
+  const b=TB[q.type];
+  const tbEl=document.getElementById('tbdg');
+  tbEl.className='tbadge '+b.cls; tbEl.textContent=b.lbl;
+
+  const dCls=q.diff==='H'?'dt-h':'dt-m';
+  const dTxt=q.diff==='H'?'🔥 Hard':'⚡ Moderate';
+  document.getElementById('qn').innerHTML=`Q${i+1} of ${Q.length} <span class="diff-tag ${dCls}">${dTxt}</span>`;
+  document.getElementById('qu').textContent=q.u;
+  document.getElementById('qt').innerHTML=q.q;
+
+  // extra content
+  const ex=document.getElementById('qex'); ex.innerHTML='';
+  if(q.type==='case') ex.innerHTML=`<div class="casebox">${q.cs}</div>`;
+  else if(q.type==='ar') ex.innerHTML=`<div class="arbox">${q.ar.map(r=>`<div class="arrow"><strong>${r.l}:</strong> ${r.t}</div>`).join('')}</div>`;
+  else if(q.type==='stmt') ex.innerHTML=`<div class="stbox">${q.sts.map(r=>`<div class="strow"><strong>${r.l}:</strong> ${r.t}</div>`).join('')}</div>`;
+  else if(q.type==='match'){
+    const m=q.mdata;
+    let t=`<div style="overflow-x:auto;margin-bottom:16px"><table class="mtable"><thead><tr><th>${m.cols[0]}</th><th>${m.cols[1]}</th></tr></thead><tbody>`;
+    m.rows.forEach(r=>{ t+=`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`; });
+    t+=`</tbody></table></div>`; ex.innerHTML=t;
+  }
+
+  // options
+  const ol=document.getElementById('ol'); ol.innerHTML='';
+  ['A','B','C','D'].forEach((lbl,idx)=>{
+    const d=document.createElement('div');
+    d.className='opt';
+    d.innerHTML=`<div class="okey">${lbl}</div><div class="otxt">${q.opts[idx]}</div><span class="oico"></span>`;
+    if(done){
+      d.classList.add('locked');
+      if(idx===q.ans){d.classList.add('correct');d.querySelector('.oico').textContent='✓';}
+      else if(idx===answers[i]&&idx!==q.ans){d.classList.add('wrong');d.querySelector('.oico').textContent='✗';}
+      else d.classList.add('dim');
+    } else {
+      d.onclick=()=>pick(i,idx,ol);
+    }
+    ol.appendChild(d);
+  });
+
+  // exp
+  const eb=document.getElementById('eb');
+  if(done){ eb.innerHTML=`💡 <strong>Explanation:</strong> ${q.exp}`; eb.classList.add('show'); }
+  else { eb.classList.remove('show'); eb.innerHTML=''; }
+
+  // stats
+  document.getElementById('sq').textContent=i+1;
+  document.getElementById('sc2').textContent=correct;
+  document.getElementById('sw').textContent=wrong;
+  document.getElementById('sk').textContent=answers.filter(a=>a===null).length;
+  document.getElementById('ss').textContent=correct;
+  document.getElementById('pb').style.width=`${((i+1)/Q.length)*100}%`;
+  document.getElementById('pt').textContent=`${i+1} / ${Q.length}`;
+  document.getElementById('bpv').disabled=i===0;
+  document.getElementById('bnx').textContent=i===Q.length-1?'Finish 🔥':'Next →';
+}
+
+function pick(qi,oi,container){
+  if(answers[qi]!==null)return;
+  answers[qi]=oi;
+  const q=Q[qi];
+  container.querySelectorAll('.opt').forEach((el,i)=>{
+    el.classList.add('locked'); el.onclick=null;
+    if(i===q.ans){el.classList.add('correct');el.querySelector('.oico').textContent='✓';}
+    else if(i===oi&&i!==q.ans){el.classList.add('wrong');el.querySelector('.oico').textContent='✗';}
+    else el.classList.add('dim');
+  });
+  if(oi===q.ans) correct++; else wrong++;
+  ['sc2','sw','sk','ss'].forEach(id=>document.getElementById(id).textContent=
+    id==='sc2'?correct:id==='sw'?wrong:id==='sk'?answers.filter(a=>a===null).length:correct);
+  const eb=document.getElementById('eb');
+  eb.innerHTML=`💡 <strong>Explanation:</strong> ${q.exp}`; eb.classList.add('show');
+}
+
+function go(d){
+  const n=cur+d;
+  if(n>=Q.length){showResult();return;}
+  if(n<0)return;
+  cur=n;
+  const c=document.getElementById('qcard');
+  c.style.animation='none';c.offsetHeight;c.style.animation='slIn .35s ease';
+  render(cur);
+}
+
+function showResult(){
+  document.getElementById('qcard').style.display='none';
+  document.querySelector('.nav').style.display='none';
+  document.querySelector('.prog-wrap').style.display='none';
+  const sk=Q.length-correct-wrong;
+  const pct=Math.round((correct/Q.length)*100);
+  document.getElementById('rsc').textContent=correct;
+  document.getElementById('rc2').textContent=correct;
+  document.getElementById('rw').textContent=wrong;
+  document.getElementById('rk').textContent=sk;
+
+  let t,m;
+  if(pct>=83){t='BOARD TOPPER 🏆';m='Exceptional! You have mastered CBSE BST MCQ patterns completely.';}
+  else if(pct>=66){t='EXCELLENT ⭐';m='Strong grasp of hard questions. Review the wrong ones and you\'re set!';}
+  else if(pct>=50){t='GOOD JOB 👏';m='Decent attempt. Focus on A&R and Statement I/II traps.';}
+  else if(pct>=33){t='KEEP GOING 📖';m='Revise NCERT thoroughly + watch Sunil Panda / Rajat Arora lectures.';}
+  else {t='DON\'T STOP 💪';m='Hard level hai yaar! Notes review karo, ek baar aur try karo. You\'ll crack it!';}
+
+  document.getElementById('rt').textContent=t;
+  document.getElementById('rm').textContent=m;
+
+  // Chapter report
+  const map={};
+  Q.forEach((q,i)=>{
+    if(!map[q.u])map[q.u]={t:0,c:0};
+    map[q.u].t++;
+    if(answers[i]===q.ans)map[q.u].c++;
+  });
+  let html='<div class="crep-hd">📊 Chapter-wise Report</div>';
+  Object.entries(map).forEach(([ch,{t,c}])=>{
+    const p=Math.round((c/t)*100);
+    const cls=p>=70?'good':p>=40?'ok':'bad';
+    const fcls=p>=70?'pfgood':p>=40?'pfok':'pfbad';
+    html+=`<div class="crow"><span class="cn">${ch}</span><div style="text-align:right"><span class="cs ${cls}">${c}/${t} · ${p}%</span><div class="perfbar"><div class="perfbar-fill ${fcls}" style="width:${p}%"></div></div></div></div>`;
+  });
+  document.getElementById('crep').innerHTML=html;
+  document.getElementById('res').classList.add('show');
+  document.getElementById('res').scrollIntoView({behavior:'smooth'});
+  if(pct>=50)confetti();
+}
+
+function confetti(){
+  const cols=['#ff6b35','#4ecdc4','#ffd166','#06d6a0','#ef476f','#9b5de5'];
+  for(let i=0;i<80;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='cf';
+      const s=3+Math.random()*7;
+      el.style.cssText=`width:${s}px;height:${s*1.6}px;background:${cols[Math.floor(Math.random()*cols.length)]};left:${Math.random()*100}vw;top:-10px;animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()}s;border-radius:2px;`;
+      document.body.appendChild(el);setTimeout(()=>el.remove(),5000);
+    },i*35);
+  }
+}
+
+function restart(){
+  answers=new Array(Q.length).fill(null);correct=0;wrong=0;cur=0;
+  document.getElementById('qcard').style.display='block';
+  document.querySelector('.nav').style.display='flex';
+  document.querySelector('.prog-wrap').style.display='flex';
+  document.getElementById('res').classList.remove('show');
+  render(0);window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render(0);
+</script>
+</body>
+</html>
